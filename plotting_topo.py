@@ -49,6 +49,6 @@ def plot_topo_netcdf(map,etopo_file,cmap='terrain',zorder=0,lonextent=(0,20),lat
     lons_sl = lons[lons_col_index[0]:lons_col_index[-1]+1]
     lats_sl = lats[lats_col_index[0]:lats_col_index[-1]+1]
     lons_sl, lats_sl = np.meshgrid(lons_sl,lats_sl)
-    cs = map.contourf(lons_sl, lats_sl, etopo_sl, 100,latlon=True,zorder=zorder, cmap=cmap,alpha=0.4, extend="both")
+    cs = map.contourf(lons_sl, lats_sl, etopo_sl, 100,latlon=True,zorder=zorder, cmap=cmap,alpha=0.6, extend="both")
     return cs
     

@@ -2,12 +2,11 @@ from plotting_topo import plot_topo, plot_topo_netcdf
 from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 import numpy as np
-import pickle, os
 
 africa_plot = 0
 world_plot = 0
-etopo_africa_plot = 0
-etopo_taiwan_plot = 1
+etopo_africa_plot = 1
+etopo_taiwan_plot = 0
 
 if africa_plot:
     ## Map1
@@ -92,7 +91,7 @@ if etopo_africa_plot:
     fig = plt.figure(figsize=(10,6))
     ax = fig.add_subplot(111)
     map = Basemap(projection='merc',resolution = 'l', area_thresh = 10000., llcrnrlon=lonmin, llcrnrlat=latmin,urcrnrlon=lonmax, urcrnrlat=latmax)
-    cs = plot_topo_netcdf(map,etopo_file='ETOPO1_Bed_g_gmt4.grd',cmap='terrain',lonextent=(lonmin, lonmax),latextent=(latmin, latmax),zorder=2)
+    cs = plot_topo_netcdf(map,etopo_file='ETOPO1_Bed_g_gmt4.grd',cmap='jet',lonextent=(lonmin, lonmax),latextent=(latmin, latmax),zorder=2)
     fig.colorbar(cs, ax=ax, shrink=0.9)
 
     map.drawcoastlines(color='k',linewidth=0.5)
