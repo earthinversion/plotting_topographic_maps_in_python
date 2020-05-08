@@ -26,5 +26,30 @@ def plot_topo(map,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60),plo
         limits = cs.get_clim()
         cs = map.pcolormesh(lons_sl,lats_sl,etopo_sl,cmap=cmap,latlon=True,shading='gouraud',zorder=zorder,alpha=0.4,antialiased=1,vmin=limits[0],vmax=limits[1],linewidth=0)
     elif plotstyle=='contf':
-        cs = map.contourf(lons_sl, lats_sl, etopo_sl, 50,latlon=True,zorder=zorder, cmap=cmap,alpha=0.5, extend="both")
+        cs = map.contourf(lons_sl, lats_sl, etopo_sl, 50,latlon=True,zorder=zorder, cmap=cmap,alpha=0.4, extend="both")
     return cs
+
+
+import netCDF4
+def plot_topo_netcdf(map,etopo_file,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60)):
+    f = netCDF4.Dataset(etopo_file)
+    lons = f.variables['x'][:]
+    lats = f.variables['y'][:]
+    etopo = f.variables['z'][:]
+
+    minlon,maxlon = lonextent
+    minlat,maxlat = latextent
+    minlon,maxlon = minlon-1,maxlon+1
+    minlat,maxlat = minlat-1,maxlat+1
+
+    lons_col_index = np.where((lons>minlon) & (lons<maxlon))[0]
+    lats_col_index = np.where((lats>minlat) & (lats<maxlat))[0]
+
+    etopo_sl = etopo[lats_col_index[0]:lats_col_index[-1]+1,lons_col_index[0]:lons_col_index[-1]+1]
+    lons_sl = lons[lons_col_index[0]:lons_col_index[-1]+1]
+    lats_sl = lats[lats_col_index[0]:lats_col_index[-1]+1]
+    lons_sl, lats_sl = np.meshgrid(lons_sl,lats_sl)
+    print(lons_sl.shape, lats_sl.shape, etopo_sl.shape)
+    cs = map.contourf(lons_sl, lats_sl, etopo_sl, 100,latlon=True,zorder=zorder, cmap=cmap,alpha=0.4, extend="both")
+    return cs
+    

@@ -1,0 +1,4 @@
+.DS_Store
+__pycache__/*
+.vscode/
+ETOPO1_Bed_g_gmt4.grd
