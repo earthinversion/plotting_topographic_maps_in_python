@@ -1,7 +1,7 @@
 # Plotting Topographic Maps using Python
 - uses basemap
 - uses topo data in the directory `topo`
-- use topographic data from `ETOPO1_Bed_g_gmt4.grd` file from NOAA (or any netcdf topo file)
+- use topographic data from `ETOPO1_Bed_g_gmt4.grd` file from NOAA (or any netcdf topo file). Download data from [here](https://www.ngdc.noaa.gov/mgg/global/).
 
 
 ## World Map
