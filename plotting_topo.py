@@ -33,8 +33,8 @@ def plot_topo(map,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60),plo
 import netCDF4
 def plot_topo_netcdf(map,etopo_file,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60)):
     f = netCDF4.Dataset(etopo_file)
-    lons = f.variables['x'][:]
-    lats = f.variables['y'][:]
+    lons = f.variables['lon'][:]
+    lats = f.variables['lat'][:]
     etopo = f.variables['z'][:]
 
     minlon,maxlon = lonextent
