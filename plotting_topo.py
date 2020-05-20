@@ -88,5 +88,9 @@ def plot_topo_netcdf(map,etopo_file,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20
     ls = LightSource(azdeg=az, altdeg=alt)
     rgb = ls.shade(np.array(etopo_sl), cmap=cmap, vert_exag=1, blend_mode=ls.blend_soft_light)
 
-    cs = map.imshow(rgb,zorder=zorder,alpha=alpha,cmap=cmap, interpolation='bilinear')
+    map.imshow(rgb,zorder=zorder,alpha=alpha,cmap=cmap, interpolation='bilinear')
+    
+    # Use a proxy artist for the colorbar...
+    cs = map.imshow(np.array(etopo_sl), cmap=cmap)
+    cs.remove()
     return cs
