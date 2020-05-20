@@ -5,7 +5,19 @@ from matplotlib.colors import LightSource
 
 
 
-def plot_topo(map,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60),plotstyle='pmesh'):
+
+def plot_topo(map,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20),latextent=(35,60),plotstyle='pmesh'):
+    '''
+    -Utpal Kumar
+    map: map object
+    cmap: colormap to use
+    lonextent: tuple of int or float
+        min and max of longitude to use
+    latextent: tuple of int or float
+        min and max of latitude to use
+    plotstyle: str
+        use pmesh (pcolormesh) or contf (contourf)
+    '''
     minlon,maxlon = lonextent
     minlat,maxlat = latextent
     minlon,maxlon = minlon-1,maxlon+1
@@ -34,7 +46,20 @@ def plot_topo(map,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60),plo
 
 
 import netCDF4
-def plot_topo_netcdf(map,etopo_file,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20),latextent=(35,60),alpha=0.8):
+def plot_topo_netcdf(map,etopo_file,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20),latextent=(35,60),alpha = 0.8,az = 315, alt = 45):
+    '''
+    -Utpal Kumar
+    map: map object
+    etopo_file: str 
+        Topography or other data file
+    cmap: colormap to use
+    az: int or float
+        The azimuth (0-360, degrees clockwise from North) of the light
+        source.
+    alt: int or float
+        The altitude (0-90, degrees up from horizontal) of the light
+        source.
+    '''
     f = netCDF4.Dataset(etopo_file)
     # print(f.variables.keys())
     try:
@@ -60,7 +85,7 @@ def plot_topo_netcdf(map,etopo_file,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20
     lats_sl = lats[lats_col_index[0]:lats_col_index[-1]+1]
     lons_sl, lats_sl = np.meshgrid(lons_sl,lats_sl)
 
-    ls = LightSource(azdeg=315, altdeg=45)
+    ls = LightSource(azdeg=az, altdeg=alt)
     rgb = ls.shade(np.array(etopo_sl), cmap=cmap, vert_exag=1, blend_mode=ls.blend_soft_light)
 
     cs = map.imshow(rgb,zorder=zorder,alpha=alpha,cmap=cmap, interpolation='bilinear')
