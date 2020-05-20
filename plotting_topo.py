@@ -1,5 +1,7 @@
 from mpl_toolkits.basemap import shiftgrid
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import LightSource
 
 
 
@@ -30,12 +32,20 @@ def plot_topo(map,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60),plo
     return cs
 
 
+
 import netCDF4
-def plot_topo_netcdf(map,etopo_file,cmap='terrain',zorder=0,lonextent=(0,20),latextent=(35,60)):
+def plot_topo_netcdf(map,etopo_file,cmap=plt.cm.terrain,zorder=0,lonextent=(0,20),latextent=(35,60),alpha=0.8):
     f = netCDF4.Dataset(etopo_file)
-    lons = f.variables['lon'][:]
-    lats = f.variables['lat'][:]
-    etopo = f.variables['z'][:]
+    # print(f.variables.keys())
+    try:
+        lons = f.variables['lon'][:]
+        lats = f.variables['lat'][:]
+        etopo = f.variables['z'][:]
+    except:
+        lons = f.variables['x'][:]
+        lats = f.variables['y'][:]
+        etopo = f.variables['z'][:]
+
 
     minlon,maxlon = lonextent
     minlat,maxlat = latextent
@@ -49,6 +59,9 @@ def plot_topo_netcdf(map,etopo_file,cmap='terrain',zorder=0,lonextent=(0,20),lat
     lons_sl = lons[lons_col_index[0]:lons_col_index[-1]+1]
     lats_sl = lats[lats_col_index[0]:lats_col_index[-1]+1]
     lons_sl, lats_sl = np.meshgrid(lons_sl,lats_sl)
-    cs = map.contourf(lons_sl, lats_sl, etopo_sl, 100,latlon=True,zorder=zorder, cmap=cmap,alpha=0.6, extend="both")
+
+    ls = LightSource(azdeg=315, altdeg=45)
+    rgb = ls.shade(np.array(etopo_sl), cmap=cmap, vert_exag=1, blend_mode=ls.blend_soft_light)
+
+    cs = map.imshow(rgb,zorder=zorder,alpha=alpha,cmap=cmap, interpolation='bilinear')
     return cs
-    
