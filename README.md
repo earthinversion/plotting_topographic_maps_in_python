@@ -2,7 +2,7 @@
 - uses basemap
 - uses topo data in the directory `topo`
 - use topographic data from `ETOPO1_Bed_g_gmt4.grd` file from NOAA (or any netcdf topo file). Download data from [here](https://www.ngdc.noaa.gov/mgg/global/).
-
+PS: If you want high resolution topographic maps in python using GMT, visit my post here: [PyGMT: High-Resolution Topographic Map in Python](https://www.earthinversion.com/utilities/pygmt-high-resolution-topographic-map-in-python/)
 
 ## World Map
 ```
